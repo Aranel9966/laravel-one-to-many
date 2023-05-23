@@ -9,10 +9,15 @@
   <button type="submit"> cerca</button>
 </form> --}}
 
+
+
 <table class="mt-5 table table-striped">
   <thead>
     <th>
       Titolo
+    </th>
+    <th>
+      Categoria
     </th>
     <th>
       Descrizione
@@ -26,13 +31,21 @@
   </thead>
 
   <tbody>
+    {{-- {{dd($projects->categories)}} --}}
+
 
     @foreach($projects as $project)
     <tr >
       <td>{{$project->title}}</td>
+
+      <td>{{ $project->category?->name}}</td>
+
       <td>{{$project->description}}</td>
+
       <td> <a href="{{$project->thumb}}">{{$project->thumb}}</a> </td>
+
       <td>{{$project->slug}}</td>
+
       <td><a href="{{route('admin.projects.show', $project->slug)}}"><i class="fa-solid fa-magnifying-glass"></i></a></td>
     </tr>
     @endforeach

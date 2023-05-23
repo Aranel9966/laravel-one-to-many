@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\ProfileController;
@@ -35,8 +36,9 @@ Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
-        Route::resource('projects', ProjectController::class)->parameters(['projects' => 'project:slug']);
         Route::get('/', [DashboardController::class, 'home'])->name('dashboard.home');
+        Route::resource('projects', ProjectController::class)->parameters(['projects' => 'project:slug']);
+        Route::resource('categories', CategoryController::class)->parameters(['categories' => 'category:slug']);
     });
 
 require __DIR__ . '/auth.php';

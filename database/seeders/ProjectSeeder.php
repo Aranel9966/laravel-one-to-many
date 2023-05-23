@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\Admin\Project;
+use App\Models\Project;
 
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
@@ -25,6 +25,7 @@ class ProjectSeeder extends Seeder
 
             $project->title = $faker->sentence(3);
             $project->description = $faker->text();
+            $project->thumb = $faker->text();
             $project->slug = Str::slug($project->title, '-');
 
             $project->save();
