@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+
 
 class CategoryController extends Controller
 {
@@ -26,7 +29,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin\categories\crate');
     }
 
     /**
@@ -37,7 +40,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $formData = $request->all();
+        $newCategory = new Category();
+        $newCategory->fill($formData);
+        $newCategory->slug = Str::slug($newCategory->name, '-');
+        $newCategory->save();
+        return redirect()->route('admin.categories.show', $newCategory->slug);
     }
 
     /**
@@ -59,7 +67,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -71,7 +79,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $formData = $request->all();
+
+        $category->slug = Str::slug($category->name, '-');
+        $category->update($formData);
+        return redirect()->route('admin.categories.show', $category->slug);
     }
 
     /**
@@ -82,6 +94,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        return redirect()->route('admin.categories.index');
     }
 }

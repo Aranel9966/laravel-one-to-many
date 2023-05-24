@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -34,7 +35,9 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        return view('admin\projects\crate');
+        $categories = Category::all();
+
+        return view('admin\projects\crate', compact('categories'));
     }
 
     /**
@@ -73,7 +76,8 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('admin.projects.edit', compact('project'));
+        $categories = Category::all();
+        return view('admin.projects.edit', compact('project', 'categories'));
     }
 
     /**

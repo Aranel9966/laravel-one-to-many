@@ -26,7 +26,7 @@
       <td>{{$category->description}}</td>
       {{-- <td> <a href="{{$category->thumb}}">{{$category->thumb}}</a> </td> --}}
       <td>{{$category->slug}}</td>
-      {{-- <td><a href="{{route('admin.categories.show', $category->slug)}}"><i class="fa-solid fa-magnifying-glass"></i></a></td> --}}
+      <td><a href="{{route('admin.categories.show', $category->slug)}}"><i class="fa-solid fa-magnifying-glass"></i></a></td>
     </tr>
     @endforeach
 

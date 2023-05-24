@@ -35,6 +35,18 @@
         @enderror
     </div>
 
+    <div class="mb-3">
+        <label for="category_id">Categoria</label>
+        <select class="form-select " aria-label="Default select example" name="category_id" id="category_id" >
+            <option value="">Nessuna</option>
+            @foreach($categories as $category){
+                <option value="{{$category->id}}" {{$category->id == old('category_id', $project->category_id) ? 'selected' : ''}}>{{$category->name}}</option>
+            }
+            @endforeach
+        </select> 
+    </div>
+    
+
     <button type="submit" class="btn btn-primary">Aggiungi</button>
 
     
