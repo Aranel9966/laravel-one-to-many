@@ -104,6 +104,7 @@
                 <a href="{{route('admin.projects.index')}}">Mostra tutti i progetti</a>
                 <a href="{{route('admin.projects.create')}}">Aggiungi nuovo progetto</a>
                 <a href="{{route('admin.categories.index')}}">Tutte le categorie</a>
+                <a href="{{route('admin.categories.create')}}">Aggiungi nuova categoria</a>
                 
             </aside>
 
