@@ -90,10 +90,10 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         $formData = $request->all();
-        $this->validation($request);
-        $project->slug = Str::slug($project->title, '-');
+        $this->validation($formData);
+        $formData['slug'] = Str::slug($formData['title'], '-');
         $project->update($formData);
-        return redirect()->route('admin.projects.show', $project->slug);
+        return redirect()->route('admin.projects.show', $project);
     }
 
     /**
@@ -108,10 +108,8 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index');
     }
 
-    private function validation($request)
+    private function validation($formData)
     {
-
-        $formData = $request->all();
 
         $validator = Validator::make($formData, [
             'title' => 'required|max:200',

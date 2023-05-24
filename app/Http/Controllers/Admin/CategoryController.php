@@ -40,6 +40,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validation($request);
         $formData = $request->all();
         $newCategory = new Category();
         $newCategory->fill($formData);
@@ -80,10 +81,10 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $formData = $request->all();
-
-        $category->slug = Str::slug($category->name, '-');
+        $this->validation($formData);
+        $formData['slug'] = Str::slug($category['name'], '-');
         $category->update($formData);
-        return redirect()->route('admin.categories.show', $category->slug);
+        return redirect()->route('admin.categories.show', $category);
     }
 
     /**
@@ -96,5 +97,24 @@ class CategoryController extends Controller
     {
         $category->delete();
         return redirect()->route('admin.categories.index');
+    }
+
+
+
+    private function validation($formData)
+    {
+
+        $validator = Validator::make($formData, [
+            'name' => 'required|max:200',
+            'description' => 'required',
+
+        ], [
+            'name.required' => 'Il nome deve essere inserito',
+            'name.max' => 'Il nome deve avere :max caratteri',
+            'description.required' => 'La descrizione deve essere inserita',
+
+        ])->validate();
+
+        return $validator;
     }
 }

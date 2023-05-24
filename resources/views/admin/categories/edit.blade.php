@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{route('admin.categories.store')}}" method="POST" class="py-5">
+<form action="{{route('admin.categories.update',$category)}}" method="POST" class="py-5">
     @csrf
     @method('PUT')
 

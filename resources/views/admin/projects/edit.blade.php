@@ -2,8 +2,10 @@
 
 @section('content')
 
-<form action="{{route('admin.projects.store')}}" method="POST" class="py-5">
+<form action="{{route('admin.projects.update',$project)}}" method="POST" class="py-5">
     @csrf
+    @method('PUT')
+
 
     <div class="mb-3">
         <label for="title">Titolo</label>
