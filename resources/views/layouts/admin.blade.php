@@ -105,7 +105,9 @@
                 <a href="{{route('admin.projects.create')}}">Aggiungi nuovo progetto</a>
                 <a href="{{route('admin.categories.index')}}">Tutte le categorie</a>
                 <a href="{{route('admin.categories.create')}}">Aggiungi nuova categoria</a>
-                
+                <a href="{{route('admin.technologies.index')}}">Tutte le tecnologie</a>
+                <a href="{{route('admin.technologies.create')}}">Aggiungi nuova teccnologia</a>
+ 
             </aside>
 
             <main class="container">

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Technology;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Str;
+
 class TechnologyController extends Controller
 {
     /**
@@ -14,7 +16,8 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        //
+        $technologies = Technology::all();
+        return view('admin.technologies.index', compact('technologies'));
     }
 
     /**
@@ -24,7 +27,7 @@ class TechnologyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.technologies.create ');
     }
 
     /**
@@ -35,7 +38,12 @@ class TechnologyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $formData = $request->all();
+        $newTechnologies = new Technology();
+        $newTechnologies->fill($formData);
+        $newTechnologies->slug = Str::slug($newTechnologies->name, '-');
+        $newTechnologies->save();
+        return redirect()->route('admin.categories.index');
     }
 
     /**
