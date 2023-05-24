@@ -46,6 +46,18 @@
         </select> 
     </div>
 
+    <div class="mb-3 form-group">
+        <h4>technologies</h4>
+  
+        @foreach($technologies as $tag)
+        <div class="form-check">
+          <input type="checkbox" id="tag-{{$tag->id}}" name="technologies[]" value="{{$tag->id}}">
+          <label for="tag-{{$tag->id}}">{{$tag->name}}</label>
+        </div>
+        @endforeach
+  
+      </div>
+
     <button type="submit" class="btn btn-primary">Aggiungi</button>
 
     

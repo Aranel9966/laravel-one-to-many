@@ -10,9 +10,6 @@
     <th>
       Descrizione
     </th>
-    {{-- <th>
-      Link-repo
-    </th> --}}
     <th>
       slag
     </th>

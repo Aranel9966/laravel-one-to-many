@@ -82,7 +82,7 @@ class CategoryController extends Controller
     {
         $formData = $request->all();
         $this->validation($formData);
-        $formData['slug'] = Str::slug($category['name'], '-');
+        $formData['slug'] = Str::slug($formData['name'], '-');
         $category->update($formData);
         return redirect()->route('admin.categories.show', $category);
     }

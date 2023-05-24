@@ -46,6 +46,13 @@
 
       <td>{{$project->slug}}</td>
 
+      <td>
+        {{-- {{dd($project->technologies)}} --}}
+        @foreach($project->technologies as $tag)
+            <span class="badge rounded-pill mx-1" style="background-color: {{$tag->color}}">{{$tag->name}}</span>
+            @endforeach
+      </td>
+
       <td><a href="{{route('admin.projects.show', $project->slug)}}"><i class="fa-solid fa-magnifying-glass"></i></a></td>
     </tr>
     @endforeach

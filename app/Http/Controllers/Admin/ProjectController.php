@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Project;
+use App\Models\Technology;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -36,8 +37,10 @@ class ProjectController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $technologies = Technology::all();
 
-        return view('admin\projects\crate', compact('categories'));
+
+        return view('admin\projects\crate', compact('categories', 'technologies'));
     }
 
     /**
@@ -54,6 +57,12 @@ class ProjectController extends Controller
         $newProject->fill($formData);
         $newProject->slug = Str::slug($newProject->title, '-');
         $newProject->save();
+
+        if (array_key_exists('technologies', $formData)) {
+            // la funzione sync() ci permette di sincronizzare i tag selezionati nel form con quelli presenti nella tabella ponte
+            $newProject->technologies()->sync($formData['technologies']);
+        }
+
         return redirect()->route('admin.projects.show', $newProject->slug);
     }
 
@@ -77,7 +86,9 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $categories = Category::all();
-        return view('admin.projects.edit', compact('project', 'categories'));
+        $technologies = Technology::all();
+
+        return view('admin.projects.edit', compact('project', 'categories', 'technologies'));
     }
 
     /**
@@ -93,6 +104,15 @@ class ProjectController extends Controller
         $this->validation($formData);
         $formData['slug'] = Str::slug($formData['title'], '-');
         $project->update($formData);
+
+        if (array_key_exists('technologies', $formData)) {
+            // la funzione sync() ci permette di sincronizzare i tag selezionati nel form con quelli presenti nella tabella ponte
+            $project->technologies()->sync($formData['technologies']);
+        } else {
+            // dobbiamo specificare che se non è stato selezionato alcun tag, deve eliminare tutti i suoi riferimenti dalla tabella ponte
+            $project->technologies()->detach();
+        }
+
         return redirect()->route('admin.projects.show', $project);
     }
 

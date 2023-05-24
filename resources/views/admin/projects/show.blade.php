@@ -7,6 +7,12 @@
   <hr>
   <h3>{{$project->category?->name}}</h3>
 
+  <p>
+    @foreach($project->technologies as $tag)
+    <span class="badge rounded-pill mx-1" style="background-color: {{$tag->color}}">{{$tag->name}}</span>
+    @endforeach
+  </p>
+
   <p>{{$project->description}}</p>
 
   <a href="{{$project->thumb}}">{{$project->thumb}}</a>
