@@ -152,12 +152,15 @@ class ProjectController extends Controller
             'title' => 'required|max:200',
             'description' => 'required',
             'thumb' => 'required',
+            'cover_image' => 'nullable|image|max:4096',
 
         ], [
             'title.required' => 'Il titolo deve essere inserito',
             'title.max' => 'Il titolo deve avere :max caratteri',
             'description.required' => 'La descrizione deve essere inserita',
             'thumb.required' => 'Questo campo non può rimanere vuoto',
+            'cover_image.max' => "La dimensione del file è troppo grande",
+            'cover_image.image' => "Il file deve essere di tipo immagine",
 
         ])->validate();
 
