@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{route('admin.projects.update',$project)}}" method="POST" class="py-5">
+<form action="{{route('admin.projects.update',$project)}}" method="POST" class="py-5" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -15,6 +15,16 @@
             {{$message}}
         </div>
         @enderror
+    </div>
+
+    <div class="mb-3">
+        <label for="cover_image">Imagine del Progetto</label>
+        <input type="file" id="cover_image" name="cover_image" class="form-control @error('cover_image') is-invalid @enderror">
+        @error('cover_image')
+        <div class="invalid-feedback">
+          {{$message}}
+        </div>    
+      @enderror
     </div>
 
     <div class="mb-3">

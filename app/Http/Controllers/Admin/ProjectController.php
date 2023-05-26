@@ -107,6 +107,18 @@ class ProjectController extends Controller
     {
         $formData = $request->all();
         $this->validation($formData);
+
+        if ($request->hasFile('cover_image')) {
+
+            if ($request->cover_image) {
+                Storage::delete($request->cover_image);
+            }
+
+            $path = Storage::put('cartella', $request->cover_image);
+
+            $formData['cover_image'] = $path;
+        }
+
         $project->slug = Str::slug($formData['title'], '-');
         $project->update($formData);
 
