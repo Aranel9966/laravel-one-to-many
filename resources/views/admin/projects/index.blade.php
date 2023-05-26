@@ -28,6 +28,9 @@
     <th>
       slag
     </th>
+    <th>
+      Categorie
+    </th>
   </thead>
 
   <tbody>
@@ -54,6 +57,7 @@
       </td>
 
       <td><a href="{{route('admin.projects.show', $project->slug)}}"><i class="fa-solid fa-magnifying-glass"></i></a></td>
+
     </tr>
     @endforeach
 

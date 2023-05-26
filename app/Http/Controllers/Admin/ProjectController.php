@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
@@ -38,8 +39,6 @@ class ProjectController extends Controller
     {
         $categories = Category::all();
         $technologies = Technology::all();
-
-
         return view('admin\projects\crate', compact('categories', 'technologies'));
     }
 
@@ -51,16 +50,22 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validation($request);
         $formData = $request->all();
+        $this->validation($formData);
         $newProject = new Project();
+
+        if ($request->hasFile('cover_image')) {
+            $path = Storage::put('cartella', $request->cover_image);
+            $formData['cover_image'] = $path;
+        }
+
         $newProject->fill($formData);
         $newProject->slug = Str::slug($newProject->title, '-');
         $newProject->save();
 
         if (array_key_exists('technologies', $formData)) {
             // la funzione sync() ci permette di sincronizzare i tag selezionati nel form con quelli presenti nella tabella ponte
-            $newProject->technologies()->sync($formData['technologies']);
+            $newProject->technologies()->attach($formData['technologies']);
         }
 
         return redirect()->route('admin.projects.show', $newProject->slug);
@@ -102,7 +107,7 @@ class ProjectController extends Controller
     {
         $formData = $request->all();
         $this->validation($formData);
-        $formData['slug'] = Str::slug($formData['title'], '-');
+        $project->slug = Str::slug($formData['title'], '-');
         $project->update($formData);
 
         if (array_key_exists('technologies', $formData)) {

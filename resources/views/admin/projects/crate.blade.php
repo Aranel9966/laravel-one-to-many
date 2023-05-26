@@ -2,7 +2,7 @@
 
 @section('content')
 
-<form action="{{route('admin.projects.store')}}" method="POST" class="py-5">
+<form action="{{route('admin.projects.store')}}" method="POST" class="py-5" enctype="multipart/form-data">
     @csrf
 
     <div class="mb-3">
@@ -13,6 +13,15 @@
             {{$message}}
         </div>
         @enderror
+    </div>
+    <div class="mb-3">
+        <label for="cover_image">Imagine del Progetto</label>
+        <input type="file" id="cover_image" name="cover_image" class="form-control @error('cover_image') is-invalid @enderror">
+        @error('cover_image')
+        <div class="invalid-feedback">
+          {{$message}}
+        </div>    
+      @enderror
     </div>
 
     <div class="mb-3">
@@ -50,8 +59,8 @@
         <h4>technologies</h4>
   
         @foreach($technologies as $tag)
-        <div class="form-check">
-          <input type="checkbox" id="tag-{{$tag->id}}" name="technologies[]" value="{{$tag->id}}">
+        <div class="form-check">                                                                       
+          <input type="checkbox" id="tag-{{$tag->id}}" name="technologies[]" value="{{$tag->id}}" @checked(in_array($tag->id , old('technologies',[])))>
           <label for="tag-{{$tag->id}}">{{$tag->name}}</label>
         </div>
         @endforeach

@@ -5,6 +5,7 @@
 <div class="main pt-5 ">
   <h1>{{$project->title}}</h1>
   <hr>
+  <img src="{{ asset('storage/' . $project->cover_image) }}" alt="">
   <h3>{{$project->category?->name}}</h3>
 
   <p>
@@ -15,7 +16,7 @@
 
   <p>{{$project->description}}</p>
 
-  <a href="{{$project->thumb}}">{{$project->thumb}}</a>
+  <a href="{{$project->thumb}}" target="_blank">{{$project->thumb}}</a>
 </div>
 
 <div class="d-flex justify-content-between m-5">
