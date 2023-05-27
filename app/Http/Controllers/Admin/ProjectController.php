@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -21,11 +22,19 @@ class ProjectController extends Controller
      */
     public function index(Request $request)
     {
+        $user_id = Auth::id();
+
         if ($request->has('title')) {
 
-            $projects = Project::where('title', 'like', "%$request->title%")->get();
+            // $projects = Project::where('title', 'like', "%$request->title%")->get();
+            $projects = Project::where(function ($query) use ($request) {
+                $query->where('title', 'like', "%$request->title%");
+            })->where(function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            })->get();
+            // $projects = Project::where('user_id', $user_id)->get();
         } else {
-            $projects = Project::all();
+            $projects = Project::where('user_id', $user_id)->get();
         }
         return view('admin.projects.index', compact('projects'));
     }
@@ -60,6 +69,8 @@ class ProjectController extends Controller
         }
 
         $newProject->fill($formData);
+
+        $newProject->user_id = Auth::id();
         $newProject->slug = Str::slug($newProject->title, '-');
         $newProject->save();
 
@@ -79,7 +90,11 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        if ($project->user_id == Auth::id()) {
+            return view('admin.projects.show', compact('project'));
+        } else {
+            return redirect()->route('admin.projects.index');
+        }
     }
 
     /**
@@ -90,6 +105,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        if ($project->user_id != Auth::id()) {
+            return redirect()->route('admin.projects.index');
+        }
         $categories = Category::all();
         $technologies = Technology::all();
 
