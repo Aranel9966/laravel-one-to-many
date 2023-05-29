@@ -5,7 +5,7 @@
 <div class="main pt-5 ">
   <h1>{{$project->title}}</h1>
   <hr>
-  <img src="{{ asset('storage/' . $project->cover_image) }}" alt="">
+  <img class="w-25" src="{{ asset('storage/' . $project->cover_image) }}" alt="">
   <h3>{{$project->category?->name}}</h3>
 
   <p>
